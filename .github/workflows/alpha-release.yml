@@ -21,7 +21,7 @@ jobs:
         run: |
           VERSION=$(grep -oP '^RUNTIPI_OS_VERSION=\K[^ ]+' config)
           TIPI_VERSION=$(curl -sL https://api.github.com/repos/runtipi/runtipi/releases/latest | grep tag_name | cut -d '"' -f4)
-          echo "tagname=v${VERSION}-tipi-${TIPI_VERSION}-alpha.${{ github.event.inputs.tag }}" >> $GITHUB_OUTPUT
+          echo "tagname=v${VERSION}-tipi-${TIPI_VERSION}-alpha.${{ github.event.inputs.tag }}"
 
       # - uses: rickstaa/action-create-tag@v1
       #   with:
