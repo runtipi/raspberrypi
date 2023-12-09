@@ -19,7 +19,7 @@ jobs:
       - name: Get tag from config file
         id: get_tag
         run: |
-          VERSION=$(grep -oP '^RUNTIPI_OS_VERsSION=\K[^ ]+' config)
+          VERSION=$(grep -oP '^RUNTIPI_OS_VERSION=\K[^ ]+' config)
           TIPI_VERSION=$(curl -sL https://api.github.com/repos/runtipi/runtipi/releases/latest | grep tag_name | cut -d '"' -f4)
           echo "tagname=v${VERSION}-tipi-${TIPI_VERSION}-alpha.${{ github.event.inputs.tag }}" >> $GITHUB_OUTPUT
 
