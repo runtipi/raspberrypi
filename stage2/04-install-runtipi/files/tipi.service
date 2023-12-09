@@ -1,0 +1,12 @@
+[Unit]
+Description=Runtipi service
+Requires=docker.service multi-user.target
+After=docker.service network-online.target
+[Service]
+Restart=always
+RemainAfterExit=yes
+WorkingDirectory=/home/username/runtipi/
+ExecStart=/home/username/runtipi/runtipi-cli start
+ExecStop=/home/username/runtipi/runtipi-cli stop
+[Install]
+WantedBy=multi-user.target

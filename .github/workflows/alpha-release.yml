@@ -1,0 +1,28 @@
+name: Alpha Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Alpha version tag (1, 2, 3, ...)"
+        required: true
+
+jobs:
+  create-tag:
+    runs-on: ubuntu-latest
+    outputs:
+      tagname: ${{ steps.get_tag.outputs.tagname }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get tag from config file
+        id: get_tag
+        run: |
+          VERSION=$(grep -oP '^RUNTIPI_OS_VERSION=\K[^ ]+' config)
+          TIPI_VERSION=$(curl -sL https://api.github.com/repos/runtipi/runtipi/releases/latest | grep tag_name | cut -d '"' -f4)
+          echo "tagname=v${VERSION}-tipi-${TIPI_VERSION}-alpha.${{ github.event.inputs.tag }}" >> $GITHUB_OUTPUT
+
+      # - uses: rickstaa/action-create-tag@v1
+      #   with:
+      #     tag: ${{ steps.get_tag.outputs.tagname }}
