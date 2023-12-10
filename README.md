@@ -4,6 +4,7 @@ Runtipi OS is a simple operating system based on Debian Bookworm designed to mak
 into the self-hosting world as easy as possible and of course as affordable as possible 💵.
 
 > Info 📖: This is a modified version of the raspberry pi [pi-gen](https://github.com/RPi-Distro/pi-gen) tool.
+
 > Warning ⚠️: This is still in development so issues are to be expected please open an issue for any bug you encounter.
 
 ## Getting started 🚀
@@ -31,7 +32,7 @@ You can install RunTipi on either of these two devices:
 
 2. Download the latest Runtipi OS image from the [releases page](https://github.com/runtipi/runtipi-raspberrypi/releases)
 
-3. Download and install Raspberry Pi Imager from [here](https://www.raspberrypi.com/software/)(https://www.raspberrypi.com/software/)Launch Raspberry Pi Imager and select your board. Then select the image you just downloaded and click the write button. The process will take about 5 minutes depending on your SD card.
+3. Download and install Raspberry Pi Imager from [here](https://www.raspberrypi.com/software/). Launch Raspberry Pi Imager and select your board. Then select the image you just downloaded and click the write button. The process will take about 5 minutes depending on your SD card.
 
 4. Insert the card into the Raspberry Pi, connect the ethernet cable and then the power cable. Wait around 10-15 minutes for it to download all the requirements and then access the dashboard by going to `tipi.local`.
 
