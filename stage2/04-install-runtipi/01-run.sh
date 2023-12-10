@@ -31,11 +31,11 @@ URL="https://github.com/runtipi/runtipi/releases/download/${VERSION}/runtipi-cli
 wget ${URL} -O "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/runtipi/runtipi-cli" --show-progress -q
 chmod +x "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/runtipi/runtipi-cli"
 
-echo "Setting permissions..."
+# echo "Setting permissions..."
 
-on_chroot << EOF
-chown -R ${FIRST_USER_NAME}:${FIRST_USER_NAME} ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/runtipi/
-EOF
+# on_chroot << EOF
+# chown -R ${FIRST_USER_NAME}:${FIRST_USER_NAME} ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/runtipi/
+# EOF
 
 echo "Starting tipi..."
 
