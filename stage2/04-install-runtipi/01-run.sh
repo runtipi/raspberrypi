@@ -39,7 +39,7 @@ chmod +x "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/runtipi/runtipi-cli"
 
 echo "Starting tipi..."
 
-./${ROOTFS_DIR}/home/${FIRST_USER_NAME}/runtipi/runtipi-cli start
+.${ROOTFS_DIR}/home/${FIRST_USER_NAME}/runtipi/runtipi-cli start
 
 # Enable runtipi on boot 
 
