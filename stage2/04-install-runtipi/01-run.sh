@@ -17,7 +17,7 @@ mkdir -p "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/runtipi/"
 
 # Install runtipi
 
-echo "Downloading tipi..."
+# echo "Downloading tipi..."
 
 if [ "${RUNTIPI_VERSION}" = "latest" ]; then
     LATEST_VERSION=$(curl -sL https://api.github.com/repos/runtipi/runtipi/releases/latest | grep tag_name | cut -d '"' -f4)
@@ -31,15 +31,17 @@ URL="https://github.com/runtipi/runtipi/releases/download/${VERSION}/runtipi-cli
 wget ${URL} -O "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/runtipi/runtipi-cli" --show-progress -q
 chmod +x "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/runtipi/runtipi-cli"
 
-# echo "Setting permissions..."
+echo "Setting permissions..."
 
-# on_chroot << EOF
-# chown -R ${FIRST_USER_NAME}:${FIRST_USER_NAME} ${ROOTFS_DIR}/home/${FIRST_USER_NAME}/runtipi/
-# EOF
+on_chroot << EOF
+chown -R ${FIRST_USER_NAME}:${FIRST_USER_NAME} /home/${FIRST_USER_NAME}/runtipi/
+EOF
 
 echo "Starting tipi..."
 
-.${ROOTFS_DIR}/home/${FIRST_USER_NAME}/runtipi/runtipi-cli start
+on_chroot << EOF
+./home/${FIRST_USER_NAME}/runtipi/runtipi-cli start
+EOF
 
 # Enable runtipi on boot 
 
