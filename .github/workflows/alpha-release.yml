@@ -9,7 +9,7 @@ on:
 
 jobs:
   create-tag:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     outputs:
       tagname: ${{ steps.get_tag.outputs.tagname }}
     steps:
@@ -29,7 +29,7 @@ jobs:
           tag: ${{ steps.get_tag.outputs.tagname }}
 
   build-image:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: create-tag
     steps:
       - name: Checkout code
@@ -54,7 +54,7 @@ jobs:
           path: ${{ steps.get_img.outputs.img_name }}
 
   publish-release:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: [create-tag, build-image]
 
     steps:
