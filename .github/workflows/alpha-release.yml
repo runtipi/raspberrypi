@@ -19,9 +19,9 @@ jobs:
       - name: Get tag from config file
         id: get_tag
         run: |
-          VERSION=$(grep -oP '^RUNTIPI_OS_VERSION=\K[^ ]+' config)
-          echo "tagname=v${VERSION}-alpha.${{ github.event.inputs.tag }}" >> $GITHUB_OUTPUT
-          echo "os_version=${VERSION}" >> $GITHUB_OUTPUT
+          version=$(grep -oP '^RUNTIPI_OS_VERSION=\K[^ ]+' config)
+          echo "tagname=v${version}-alpha.${{ github.event.inputs.tag }}" >> $GITHUB_OUTPUT
+          echo "os_version=${version}" >> $GITHUB_OUTPUT
 
       - uses: rickstaa/action-create-tag@v1
         with:
@@ -60,12 +60,12 @@ jobs:
       - name: Get image name
         id: get_img
         run: |
-          IMG_FILE=$(find image/ -maxdepth 1 -type f -name '*.img' -print -quit)
-          echo "img_name=${IMG_FILE}" >> $GITHUB_OUTPUT
+          image=$(find image/ -iname *.zip)
+          echo "img_name=${image}" >> $GITHUB_OUTPUT
 
       - name: Rename image
         run: |
-          mv ${{ steps.get_img.outputs.img_name }} ./runtipi-os-${{ needs.create-tag.outputs.os_version }}.img
+          mv ${{ steps.get_img.outputs.img_name }} ./runtipi-os-${{ needs.create-tag.outputs.os_version }}.zip
 
       - name: Create alpha release
         id: create_release
@@ -80,4 +80,4 @@ jobs:
           draft: false
           prerelease: true
           files: |
-            runtipi-os-${{ needs.create-tag.outputs.os_version }}.img
+            runtipi-os-${{ needs.create-tag.outputs.os_version }}.zip
