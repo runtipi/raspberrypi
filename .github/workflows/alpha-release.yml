@@ -20,8 +20,7 @@ jobs:
         id: get_tag
         run: |
           VERSION=$(grep -oP '^RUNTIPI_OS_VERSION=\K[^ ]+' config)
-          TIPI_VERSION=$(curl -sL https://api.github.com/repos/runtipi/runtipi/releases/latest | grep tag_name | cut -d '"' -f4)
-          echo "tagname=v${VERSION}-tipi-${TIPI_VERSION}-alpha.${{ github.event.inputs.tag }}" >> $GITHUB_OUTPUT
+          echo "tagname=v${VERSION}-alpha.${{ github.event.inputs.tag }}" >> $GITHUB_OUTPUT
           echo "os_version=${VERSION}" >> $GITHUB_OUTPUT
 
       - uses: rickstaa/action-create-tag@v1
@@ -41,17 +40,11 @@ jobs:
       - name: Build Image
         run: ./build-docker.sh
 
-      - name: Get image name
-        id: get_img
-        run: |
-          IMG_FILE=$(find deploy/ -maxdepth 1 -type f -name '*.img' -print -quit)
-          echo "img_name=${IMG_FILE}" >> $GITHUB_OUTPUT
-
       - name: Upload the image
         uses: actions/upload-artifact@v3
         with:
           name: image
-          path: ${{ steps.get_img.outputs.img_name }}
+          path: deploy/
 
   publish-release:
     runs-on: ubuntu-latest
@@ -62,11 +55,17 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: image
-          path: deploy
+          path: image/
+
+      - name: Get image name
+        id: get_img
+        run: |
+          IMG_FILE=$(find image/ -maxdepth 1 -type f -name '*.img' -print -quit)
+          echo "img_name=${IMG_FILE}" >> $GITHUB_OUTPUT
 
       - name: Rename image
         run: |
-          mv ${{ needs.build-image.outputs.img_name }} ./runtipi-os-${{ needs.create-tag.outputs.os_version }}.img
+          mv ${{ steps.get_img.outputs.img_name }} ./runtipi-os-${{ needs.create-tag.outputs.os_version }}.img
 
       - name: Create alpha release
         id: create_release
