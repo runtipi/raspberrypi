@@ -7,3 +7,4 @@ ENABLE_SSH=1
 DISABLE_FIRST_BOOT_USER_RENAME=1 # Do not touch this
 RUNTIPI_VERSION=latest # Use latest or specify a version
 RUNTIPI_OS_VERSION=0.1.1 # Set the os version
+INSTALL_COCKPIT=true # Install cockpit and modules or not

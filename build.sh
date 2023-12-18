@@ -258,6 +258,7 @@ export EXPORT_DIR
 export EXPORT_ROOTFS_DIR
 export RUNTIPI_VERSION
 export RUNTIPI_OS_VERSION
+export INSTALL_COCKPIT
 
 export QUILT_PATCHES
 export QUILT_NO_DIFF_INDEX=1
@@ -317,6 +318,13 @@ fi
 if [[ "${PUBKEY_ONLY_SSH}" = "1" && -z "${PUBKEY_SSH_FIRST_USER}" ]]; then
 	echo "Must set 'PUBKEY_SSH_FIRST_USER' to a valid SSH public key if using PUBKEY_ONLY_SSH"
 	exit 1
+fi
+
+if [[ "${INSTALL_COCKPIT}" == true ]]; then
+	echo "Installing cockpit..."
+else
+	echo "Skipping cockpit installation..."
+	touch "${BASE_DIR}/stage2/05-install-cockpit/SKIP"
 fi
 
 mkdir -p "${WORK_DIR}"
