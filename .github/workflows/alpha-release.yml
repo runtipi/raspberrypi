@@ -11,21 +11,26 @@ jobs:
   create-tag:
     runs-on: ubuntu-latest
     outputs:
-      tagname: ${{ steps.get_tag.outputs.tagname }}
+      tagname: ${{ steps.create_tag.outputs.tagname }}
+      os_version: ${{ steps.get_version.outputs.os_version }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Get tag from config file
-        id: get_tag
+      - name: Get os version
+        id: get_version
         run: |
           version=$(grep -oP '^RUNTIPI_OS_VERSION=\K[^ ]+' config)
-          echo "tagname=v${version}-alpha.${{ github.event.inputs.tag }}" >> $GITHUB_OUTPUT
           echo "os_version=${version}" >> $GITHUB_OUTPUT
+
+      - name: Create tag
+        id: create_tag
+        run: |
+          echo "tagname=v${{ steps.get_version.outputs.os_version }}-alpha.${{ github.event.inputs.tag }}" >> $GITHUB_OUTPUT
 
       - uses: rickstaa/action-create-tag@v1
         with:
-          tag: ${{ steps.get_tag.outputs.tagname }}
+          tag: ${{ steps.create_tag.outputs.tagname }}
 
   build-image:
     runs-on: ubuntu-latest
