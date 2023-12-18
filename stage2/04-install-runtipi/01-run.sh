@@ -45,6 +45,7 @@ install -v files/tipi.service "${ROOTFS_DIR}/etc/systemd/system/tipi.service"
 
 echo "Make tweaks..."
 
+sed -i "s|User=username|User=${FIRST_USER_NAME}|" "${ROOTFS_DIR}/etc/systemd/system/tipi.service"
 sed -i "s|WorkingDirectory=/home/username/runtipi/|WorkingDirectory=/home/${FIRST_USER_NAME}/runtipi/|" "${ROOTFS_DIR}/etc/systemd/system/tipi.service"
 sed -i "s|ExecStart=/home/username/runtipi/runtipi-cli start|ExecStart=/home/${FIRST_USER_NAME}/runtipi/runtipi-cli start|" "${ROOTFS_DIR}/etc/systemd/system/tipi.service"
 sed -i "s|ExecStop=/home/username/runtipi/runtipi-cli stop|ExecStop=/home/${FIRST_USER_NAME}/runtipi/runtipi-cli stop|" "${ROOTFS_DIR}/etc/systemd/system/tipi.service"

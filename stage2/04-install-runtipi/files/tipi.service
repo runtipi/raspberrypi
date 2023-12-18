@@ -5,6 +5,7 @@ After=docker.service network-online.target
 [Service]
 Restart=always
 RemainAfterExit=yes
+User=username
 WorkingDirectory=/home/username/runtipi/
 ExecStart=/home/username/runtipi/runtipi-cli start
 ExecStop=/home/username/runtipi/runtipi-cli stop
