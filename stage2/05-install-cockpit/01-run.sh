@@ -15,4 +15,4 @@ EOF
 
 on_chroot << EOF
 apt install cockpit-file-sharing cockpit-navigator cockpit-identities -y
-EOF 
+EOF
