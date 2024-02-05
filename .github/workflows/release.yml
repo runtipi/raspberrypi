@@ -6,11 +6,11 @@ on:
       version:
         description: "Runtipi version (3.0.0, 3.0.0-beta.5...)"
         required: true
-    pre:
-      description: Is this a pre-release?
-      type: boolean
-      required: false
-      default: false
+      pre:
+        description: Is this a pre-release?
+        type: boolean
+        required: false
+        default: false
 
 jobs:
   create-tag:
