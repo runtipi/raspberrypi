@@ -1,5 +1,11 @@
 #!/bin/bash -e
 
+# Set environment variables
+
+URL="https://github.com/runtipi/cli/releases/download/v${RUNTIPI_VERSION}/runtipi-cli-linux-aarch64.tar.gz"
+TAR_PATH="${ROOTFS_DIR}/home/${FIRST_USER_NAME}/runtipi/runtipi-cli-linux-aarch64.tar.gz"
+RUNTIPI_PATH="${ROOTFS_DIR}/home/${FIRST_USER_NAME}/runtipi"
+
 # Install docker
 
 echo "Installing docker..."
@@ -13,30 +19,24 @@ EOF
 
 echo "Making runtipi directory..."
 
-mkdir -p "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/runtipi/"
-
-echo "Setting permissions..."
-
-on_chroot << EOF
-chown -R ${FIRST_USER_NAME}:${FIRST_USER_NAME} /home/${FIRST_USER_NAME}/runtipi/
-EOF
+mkdir -p "${RUNTIPI_PATH}/"
 
 # Install runtipi
 
 echo "Downloading runtipi cli..."
 
-URL="https://github.com/runtipi/cli/releases/download/v${RUNTIPI_VERSION}/runtipi-cli-linux-aarch64.tar.gz"
+curl --location ${URL} -o ${TAR_PATH}
 
-wget -O "${ROOTFS_DIR}/tmp/runtipi/runtipi-cli-linux-aarch64.tar.gz" ${URL}
-tar -xvf "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/runtipi/runtipi-cli-linux-aarch64.tar.gz" -C "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/runtipi/"
-rm -rf "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/runtipi/runtipi-cli-linux-aarch64.tar.gz"
-mv "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/runtipi/runtipi-cli-linux-aarch64" "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/runtipi/runtipi-cli"
-chmod +x "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/runtipi/runtipi-cli"
+tar -xvf ${TAR_PATH} -C ${RUNTIPI_PATH}
+rm -rf ${TAR_PATH}
 
-echo "Setting permissions again..."
+mv "${RUNTIPI_PATH}/runtipi-cli-linux-aarch64" "${RUNTIPI_PATH}/runtipi-cli"
+chmod +x "${RUNTIPI_PATH}/runtipi-cli"
+
+echo "Setting permissions..."
 
 on_chroot << EOF
-chown -R ${FIRST_USER_NAME}:${FIRST_USER_NAME} /home/${FIRST_USER_NAME}/runtipi/
+chown -R ${FIRST_USER_NAME} ${RUNTIPI_PATH}
 EOF
 
 # Enable runtipi on boot 
@@ -48,9 +48,9 @@ install -v files/runtipi.service "${ROOTFS_DIR}/etc/systemd/system/runtipi.servi
 echo "Make tweaks..."
 
 sed -i "s|User=username|User=${FIRST_USER_NAME}|" "${ROOTFS_DIR}/etc/systemd/system/runtipi.service"
-sed -i "s|WorkingDirectory=/home/username/runtipi/|WorkingDirectory=/home/${FIRST_USER_NAME}/runtipi/|" "${ROOTFS_DIR}/etc/systemd/system/runtipi.service"
-sed -i "s|ExecStart=/home/username/runtipi/runtipi-cli start|ExecStart=/home/${FIRST_USER_NAME}/runtipi/runtipi-cli start|" "${ROOTFS_DIR}/etc/systemd/system/runtipi.service"
-sed -i "s|ExecStop=/home/username/runtipi/runtipi-cli stop|ExecStop=/home/${FIRST_USER_NAME}/runtipi/runtipi-cli stop|" "${ROOTFS_DIR}/etc/systemd/system/runtipi.service"
+sed -i "s|WorkingDirectory=/home/username/runtipi/|WorkingDirectory=${RUNTIPI_PATH}|" "${ROOTFS_DIR}/etc/systemd/system/runtipi.service"
+sed -i "s|ExecStart=/home/username/runtipi/runtipi-cli start|ExecStart=${RUNTIPI_PATH}/runtipi-cli start|" "${ROOTFS_DIR}/etc/systemd/system/runtipi.service"
+sed -i "s|ExecStop=/home/username/runtipi/runtipi-cli stop|ExecStop=${RUNTIPI_PATH}/runtipi-cli stop|" "${ROOTFS_DIR}/etc/systemd/system/runtipi.service"
 
 chmod -x "${ROOTFS_DIR}/etc/systemd/system/runtipi.service"
 

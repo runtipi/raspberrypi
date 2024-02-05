@@ -6,16 +6,13 @@ on:
       version:
         description: "Runtipi version (3.0.0, 2.0.0...)"
         required: true
-      pre:
-        description: "Pre-release? (true or false)"
-        required: true
-        default: "false"
 
 jobs:
   create-tag:
     runs-on: ubuntu-latest
     outputs:
       tagname: ${{ steps.create_tag.outputs.tagname }}
+      pre: ${{ steps.create_tag.outputs.pre }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -28,6 +25,11 @@ jobs:
         id: create_tag
         run: |
           echo "tagname=v${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+          if echo "${{ github.event.inputs.version }}" | grep -Eq "(alpha|beta)"; then
+            echo "pre=true" >> $GITHUB_OUTPUT
+          else
+            echo "pre=false" >> $GITHUB_OUTPUT
+          fi
 
       - uses: rickstaa/action-create-tag@v1
         with:
@@ -89,6 +91,6 @@ jobs:
           tag_name: ${{ needs.create-tag.outputs.tagname }}
           name: ${{ needs.create-tag.outputs.tagname }}
           draft: false
-          prerelease: ${{ github.event.inputs.pre }}
+          prerelease: ${{ steps.create_tag.outputs.pre }}
           files: |
             runtipi-os-${{ needs.create-tag.outputs.tagname }}.zip
