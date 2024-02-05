@@ -5,6 +5,5 @@ FIRST_USER_NAME=tipi
 FIRST_USER_PASS=letthatselfhostingroll
 ENABLE_SSH=1
 DISABLE_FIRST_BOOT_USER_RENAME=1 # Do not touch this
-RUNTIPI_VERSION=latest # Use latest or specify a version
-RUNTIPI_OS_VERSION=1.0.0 # Set the os version
+RUNTIPI_VERSION=runtipi_version # Specify a version
 INSTALL_COCKPIT=true # Install cockpit and modules or not

@@ -70,7 +70,9 @@ dosfstools libarchive-tools libcap2-bin grep rsync xz-utils file git curl bc \
 qemu-utils kpartx gpg pigz sed
 ```
 
-3. Build
+4. Set the current runtipi version in `config`
+
+5. Build
 
 To build the image cd into the repo and run this command:
 

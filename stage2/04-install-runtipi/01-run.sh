@@ -11,24 +11,19 @@ EOF
 
 # Make sure the home directory exists
 
-echo "Making tipi directory..."
+echo "Making runtipi directory..."
 
 mkdir -p "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/runtipi/"
 
 # Install runtipi
 
-# echo "Downloading tipi..."
+echo "Downloading runtipi cli..."
 
-if [ "${RUNTIPI_VERSION}" = "latest" ]; then
-    LATEST_VERSION=$(curl -sL https://api.github.com/repos/runtipi/runtipi/releases/latest | grep tag_name | cut -d '"' -f4)
-    VERSION=${LATEST_VERSION}
-else
-    VERSION=${RUNTIPI_VERSION}
-fi
+URL="https://github.com/runtipi/cli/releases/download/v${RUNTIPI_VERSION}/runtipi-cli-linux-aarch64.tar.gz"
 
-URL="https://github.com/runtipi/runtipi/releases/download/${VERSION}/runtipi-cli-linux-arm64"
-
-wget ${URL} -O "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/runtipi/runtipi-cli" --show-progress -q
+curl --location "${URL}" -o "${ROOTFS_DIR}/tmp/runtipi/runtipi-cli-linux-aarch64.tar.gz"
+tar -xvf "${ROOTFS_DIR}/tmp/runtipi-cli-linux-aarch64.tar.gz" -C "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/runtipi/"
+mv "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/runtipi/runtipi-cli-linux-aarch64" "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/runtipi/runtipi-cli"
 chmod +x "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/runtipi/runtipi-cli"
 
 echo "Setting permissions..."
@@ -41,27 +36,19 @@ EOF
 
 echo "Install service..."
 
-install -v files/tipi.service "${ROOTFS_DIR}/etc/systemd/system/tipi.service"
+install -v files/runtipi.service "${ROOTFS_DIR}/etc/systemd/system/runtipi.service"
 
 echo "Make tweaks..."
 
-sed -i "s|User=username|User=${FIRST_USER_NAME}|" "${ROOTFS_DIR}/etc/systemd/system/tipi.service"
-sed -i "s|WorkingDirectory=/home/username/runtipi/|WorkingDirectory=/home/${FIRST_USER_NAME}/runtipi/|" "${ROOTFS_DIR}/etc/systemd/system/tipi.service"
-sed -i "s|ExecStart=/home/username/runtipi/runtipi-cli start|ExecStart=/home/${FIRST_USER_NAME}/runtipi/runtipi-cli start|" "${ROOTFS_DIR}/etc/systemd/system/tipi.service"
-sed -i "s|ExecStop=/home/username/runtipi/runtipi-cli stop|ExecStop=/home/${FIRST_USER_NAME}/runtipi/runtipi-cli stop|" "${ROOTFS_DIR}/etc/systemd/system/tipi.service"
+sed -i "s|User=username|User=${FIRST_USER_NAME}|" "${ROOTFS_DIR}/etc/systemd/system/runtipi.service"
+sed -i "s|WorkingDirectory=/home/username/runtipi/|WorkingDirectory=/home/${FIRST_USER_NAME}/runtipi/|" "${ROOTFS_DIR}/etc/systemd/system/runtipi.service"
+sed -i "s|ExecStart=/home/username/runtipi/runtipi-cli start|ExecStart=/home/${FIRST_USER_NAME}/runtipi/runtipi-cli start|" "${ROOTFS_DIR}/etc/systemd/system/runtipi.service"
+sed -i "s|ExecStop=/home/username/runtipi/runtipi-cli stop|ExecStop=/home/${FIRST_USER_NAME}/runtipi/runtipi-cli stop|" "${ROOTFS_DIR}/etc/systemd/system/runtipi.service"
 
-chmod -x "${ROOTFS_DIR}/etc/systemd/system/tipi.service"
+chmod -x "${ROOTFS_DIR}/etc/systemd/system/runtipi.service"
 
 echo "Enable runtipi on boot..."
 
 on_chroot << EOF
-systemctl enable tipi
+systemctl enable runtipi
 EOF
-
-# Verification
-
-# echo "Verify... (debug)"
-
-# ls -la "${ROOTFS_DIR}/home/${FIRST_USER_NAME}"
-# ls -la "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/runtipi"
-# cat "${ROOTFS_DIR}/etc/systemd/system/tipi.service"
