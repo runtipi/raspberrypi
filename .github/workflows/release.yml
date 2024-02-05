@@ -4,15 +4,19 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: "Runtipi version (3.0.0, 2.0.0...)"
+        description: "Runtipi version (3.0.0, 3.0.0-beta.5...)"
         required: true
+    pre:
+      description: Is this a pre-release?
+      type: boolean
+      required: false
+      default: false
 
 jobs:
   create-tag:
     runs-on: ubuntu-latest
     outputs:
       tagname: ${{ steps.create_tag.outputs.tagname }}
-      pre: ${{ steps.create_tag.outputs.pre }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -21,11 +25,6 @@ jobs:
         id: create_tag
         run: |
           echo "tagname=v${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
-          if echo "${{ github.event.inputs.version }}" | grep -Eq "(alpha|beta)"; then
-            echo "pre=true" >> $GITHUB_OUTPUT
-          else
-            echo "pre=false" >> $GITHUB_OUTPUT
-          fi
 
       - uses: rickstaa/action-create-tag@v1
         with:
@@ -75,7 +74,7 @@ jobs:
         run: |
           mv ${{ steps.get_img.outputs.img_name }} ./runtipi-os-${{ needs.create-tag.outputs.tagname }}.zip
 
-      - name: Create alpha release
+      - name: Create release
         id: create_release
         uses: softprops/action-gh-release@v1
         env:
@@ -86,11 +85,10 @@ jobs:
 
             ### Improvements
 
-            - Update os version to ${{ needs.create-tag.outputs.tagname }}
             - Update runtipi version to ${{ needs.create-tag.outputs.tagname }}
           tag_name: ${{ needs.create-tag.outputs.tagname }}
-          name: ${{ needs.create-tag.outputs.tagname }}
+          name: Runtipi OS ${{ needs.create-tag.outputs.tagname }}
           draft: false
-          prerelease: ${{ steps.create_tag.outputs.pre }}
+          prerelease: ${{ github.event.inputs.pre }}
           files: |
             runtipi-os-${{ needs.create-tag.outputs.tagname }}.zip
