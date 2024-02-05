@@ -25,10 +25,10 @@ mkdir -p "${RUNTIPI_PATH}/"
 
 echo "Downloading runtipi cli..."
 
-curl --location ${URL} -O ${TAR_PATH}
+wget "${URL}" -O "${TAR_PATH}"
 
-tar -xvf ${TAR_PATH} -C ${RUNTIPI_PATH}
-rm -rf ${TAR_PATH}
+tar -xzf "${TAR_PATH}" -C "${RUNTIPI_PATH}"
+rm -rf "${TAR_PATH}"
 
 mv "${RUNTIPI_PATH}/runtipi-cli-linux-aarch64" "${RUNTIPI_PATH}/runtipi-cli"
 chmod +x "${RUNTIPI_PATH}/runtipi-cli"
@@ -36,7 +36,7 @@ chmod +x "${RUNTIPI_PATH}/runtipi-cli"
 echo "Setting permissions..."
 
 on_chroot << EOF
-chown -R ${FIRST_USER_NAME} ${RUNTIPI_PATH}
+chown -R ${FIRST_USER_NAME} "/home/${FIRST_USER_NAME}/runtipi/"
 EOF
 
 # Enable runtipi on boot 
