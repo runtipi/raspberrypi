@@ -25,7 +25,7 @@ mkdir -p "${RUNTIPI_PATH}/"
 
 echo "Downloading runtipi cli..."
 
-curl --location ${URL} -o ${TAR_PATH}
+curl --location ${URL} -O ${TAR_PATH}
 
 tar -xvf ${TAR_PATH} -C ${RUNTIPI_PATH}
 rm -rf ${TAR_PATH}
