@@ -15,19 +15,25 @@ echo "Making runtipi directory..."
 
 mkdir -p "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/runtipi/"
 
+echo "Setting permissions..."
+
+on_chroot << EOF
+chown -R ${FIRST_USER_NAME}:${FIRST_USER_NAME} /home/${FIRST_USER_NAME}/runtipi/
+EOF
+
 # Install runtipi
 
 echo "Downloading runtipi cli..."
 
 URL="https://github.com/runtipi/cli/releases/download/v${RUNTIPI_VERSION}/runtipi-cli-linux-aarch64.tar.gz"
 
-curl --location "${URL}" -o "${ROOTFS_DIR}/tmp/runtipi/runtipi-cli-linux-aarch64.tar.gz"
+wget -O "${ROOTFS_DIR}/tmp/runtipi/runtipi-cli-linux-aarch64.tar.gz" ${URL}
 tar -xvf "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/runtipi/runtipi-cli-linux-aarch64.tar.gz" -C "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/runtipi/"
 rm -rf "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/runtipi/runtipi-cli-linux-aarch64.tar.gz"
 mv "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/runtipi/runtipi-cli-linux-aarch64" "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/runtipi/runtipi-cli"
 chmod +x "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/runtipi/runtipi-cli"
 
-echo "Setting permissions..."
+echo "Setting permissions again..."
 
 on_chroot << EOF
 chown -R ${FIRST_USER_NAME}:${FIRST_USER_NAME} /home/${FIRST_USER_NAME}/runtipi/
