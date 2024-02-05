@@ -47,13 +47,13 @@ SSH is enabled by default so you can see logs for any issues. Here are the crede
 
 If you like, you can build the image yourself using these commands:
 
-1. Clone the repo
+### 1. Clone the repo
 
 ```Bash
 git clone https://github.com/runtipi/runtipi-raspberrypi.git
 ```
 
-2. Install requirements
+### 2. Install requirements
 
 You will need both docker which you can install like this:
 
@@ -69,9 +69,13 @@ dosfstools libarchive-tools libcap2-bin grep rsync xz-utils file git curl bc \
 qemu-utils kpartx gpg pigz sed
 ```
 
-4. Set the current runtipi version in `config` (replace the `runtipi_version` with a version from the stable runtipi repo, like 3.0.0)
+### 4. Set the current runtipi version in `config`
 
-5. Build
+Replace the `runtipi_version` with a version from the stable runtipi repo, like 3.0.0
+
+> ⚠️ Warning! Do not add the v prefix in the version, e.g. v3.0.0 will not work, only put the version e.g 3.0.0!
+
+### 5. Build
 
 To build the image cd into the repo and run this command:
 
