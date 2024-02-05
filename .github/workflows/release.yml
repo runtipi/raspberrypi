@@ -17,10 +17,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set runtipi version
-        run: |
-          sed -i "s|RUNTIPI_VERSION=runtipi_version # Specify a version|RUNTIPI_VERSION=${{ github.event.inputs.version }} # Specify a version|" config
-
       - name: Create tag
         id: create_tag
         run: |
@@ -44,6 +40,10 @@ jobs:
 
       - name: Install apt requirements
         run: sudo apt install coreutils quilt parted qemu-user-static debootstrap zerofree zip dosfstools libarchive-tools libcap2-bin grep rsync xz-utils file git curl bc qemu-utils kpartx gpg pigz sed -y
+
+      - name: Set runtipi version
+        run: |
+          sed -i "s|RUNTIPI_VERSION=runtipi_version # Specify a version|RUNTIPI_VERSION=${{ github.event.inputs.version }} # Specify a version|" config
 
       - name: Build Image
         run: ./build-docker.sh
