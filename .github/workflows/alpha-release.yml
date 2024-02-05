@@ -6,27 +6,27 @@ on:
       tag:
         description: "Alpha version tag (1, 2, 3, ...)"
         required: true
+      version:
+        description: "Runtipi version (3.0.0, 2.0.0...)"
+        required: true
 
 jobs:
   create-tag:
     runs-on: ubuntu-latest
     outputs:
       tagname: ${{ steps.create_tag.outputs.tagname }}
-      os_version: ${{ steps.get_version.outputs.os_version }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Get os version
-        id: get_version
+      - name: Set runtipi version
         run: |
-          version=$(grep -oP '^RUNTIPI_OS_VERSION=\K[^ ]+' config)
-          echo "os_version=${version}" >> $GITHUB_OUTPUT
+          sed -i "s|RUNTIPI_VERSION=runtipi_version # Specify a version|RUNTIPI_VERSION=${{ github.event.inputs.version }} # Specify a version|" config
 
       - name: Create tag
         id: create_tag
         run: |
-          echo "tagname=v${{ steps.get_version.outputs.os_version }}-alpha.${{ github.event.inputs.tag }}" >> $GITHUB_OUTPUT
+          echo "tagname=v${{ github.event.inputs.version }}-alpha.${{ github.event.inputs.tag }}" >> $GITHUB_OUTPUT
 
       - uses: rickstaa/action-create-tag@v1
         with:
@@ -70,7 +70,7 @@ jobs:
 
       - name: Rename image
         run: |
-          mv ${{ steps.get_img.outputs.img_name }} ./runtipi-os-${{ needs.create-tag.outputs.os_version }}.zip
+          mv ${{ steps.get_img.outputs.img_name }} ./runtipi-os-${{ needs.create-tag.outputs.tagname }}.zip
 
       - name: Create alpha release
         id: create_release
@@ -85,4 +85,4 @@ jobs:
           draft: false
           prerelease: true
           files: |
-            runtipi-os-${{ needs.create-tag.outputs.os_version }}.zip
+            runtipi-os-${{ needs.create-tag.outputs.tagname }}.zip

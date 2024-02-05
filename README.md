@@ -13,15 +13,14 @@ You can install RunTipi on either of these two devices:
 
 - [Raspberry Pi 4 Model B](https://www.raspberrypi.com/products/raspberry-pi-4-model-b/)
 - [Raspberry Pi 3 Model B+](https://www.raspberrypi.com/products/raspberry-pi-3-model-b-plus/)
+- [Raspberry Pi 5](https://www.raspberrypi.com/products/raspberry-pi-5/)
 
-> Support for raspberry pi 5 coming soon!
-
-> Note that the raspberry pi 4 is recommended due to having more ram so when buying choose 4gb of ram or more.
+> Note that the raspberry pi 4 is recommended over the 3B+ due to having more ram so when buying choose 4gb of ram or more.
 
 ### Instructions
 
 1. You will need these requirements to install Runtipi OS:
-   1. A raspberry pi 4 or 3 (of course 😉)
+   1. A raspberry pi 3,4 or 5 (of course 😉)
    2. A 16gb or more SD card
    3. An ethernet cable
    4. A computer with an internet connection
@@ -34,14 +33,14 @@ You can install RunTipi on either of these two devices:
 
 3. Download and install Raspberry Pi Imager from [here](https://www.raspberrypi.com/software/). Launch Raspberry Pi Imager and select your board. Then select the image you just downloaded and click the write button. The process will take about 5 minutes depending on your SD card.
 
-4. Insert the card into the Raspberry Pi, connect the ethernet cable and then the power cable. Wait around 10-15 minutes for it to download all the requirements and then access the dashboard by going to `tipi.local`.
+4. Insert the card into the Raspberry Pi, connect the ethernet cable and then the power cable. Wait around 10-15 minutes for it to download all the requirements and then access the dashboard by going to `runtipi.local`.
 
 ## SSH 💻
 
 SSH is enabled by default so you can see logs for any issues. Here are the credentials:
 
-- Hostname: `tipi.local`
-- User: `tipi`
+- Hostname: `runtipi.local`
+- User: `runtipi`
 - Password: `letthatselfhostingroll`
 
 ## Build the image yourself 🔨
@@ -70,7 +69,7 @@ dosfstools libarchive-tools libcap2-bin grep rsync xz-utils file git curl bc \
 qemu-utils kpartx gpg pigz sed
 ```
 
-4. Set the current runtipi version in `config`
+4. Set the current runtipi version in `config` (replace the `runtipi_version` with a version from the stable runtipi repo, like 3.0.0)
 
 5. Build
 

@@ -1,7 +1,7 @@
 IMG_NAME=runtipi-os
-TARGET_HOSTNAME=tipi
+TARGET_HOSTNAME=runtipi
 TIMEZONE_DEFAULT="Etc/UTC" # Set timezone
-FIRST_USER_NAME=tipi 
+FIRST_USER_NAME=runtipi 
 FIRST_USER_PASS=letthatselfhostingroll
 ENABLE_SSH=1
 DISABLE_FIRST_BOOT_USER_RENAME=1 # Do not touch this
