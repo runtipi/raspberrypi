@@ -81,8 +81,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           body: |
-            ## ${{ needs.create-tag.outputs.tagname }}
-
             ### Improvements
 
             - Update runtipi version to ${{ needs.create-tag.outputs.tagname }}

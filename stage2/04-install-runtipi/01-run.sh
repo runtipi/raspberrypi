@@ -39,23 +39,9 @@ on_chroot << EOF
 chown -R ${FIRST_USER_NAME} "/home/${FIRST_USER_NAME}/runtipi/"
 EOF
 
-# Enable runtipi on boot 
-
-echo "Install service..."
-
-install -v files/runtipi.service "${ROOTFS_DIR}/etc/systemd/system/runtipi.service"
-
-echo "Make tweaks..."
-
-sed -i "s|User=username|User=${FIRST_USER_NAME}|" "${ROOTFS_DIR}/etc/systemd/system/runtipi.service"
-sed -i "s|WorkingDirectory=/home/username/runtipi/|WorkingDirectory=${RUNTIPI_PATH}|" "${ROOTFS_DIR}/etc/systemd/system/runtipi.service"
-sed -i "s|ExecStart=/home/username/runtipi/runtipi-cli start|ExecStart=${RUNTIPI_PATH}/runtipi-cli start|" "${ROOTFS_DIR}/etc/systemd/system/runtipi.service"
-sed -i "s|ExecStop=/home/username/runtipi/runtipi-cli stop|ExecStop=${RUNTIPI_PATH}/runtipi-cli stop|" "${ROOTFS_DIR}/etc/systemd/system/runtipi.service"
-
-chmod -x "${ROOTFS_DIR}/etc/systemd/system/runtipi.service"
-
-echo "Enable runtipi on boot..."
+# Start runtipi through runtipi-cli (should enable on boot)
 
 on_chroot << EOF
-systemctl enable runtipi
+cd "/home/${FIRST_USER_NAME}/runtipi/
+sudo ./runtipi-cli start
 EOF
