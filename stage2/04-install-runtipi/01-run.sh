@@ -47,10 +47,11 @@ install -v files/runtipi.service "${ROOTFS_DIR}/etc/systemd/system/runtipi.servi
 
 echo "Make tweaks..."
 
-sed -i "s|User=username|User=${FIRST_USER_NAME}|" "${ROOTFS_DIR}/etc/systemd/system/runtipi.service"
-sed -i "s|WorkingDirectory=/home/username/runtipi/|WorkingDirectory=${RUNTIPI_PATH}|" "${ROOTFS_DIR}/etc/systemd/system/runtipi.service"
-sed -i "s|ExecStart=/home/username/runtipi/runtipi-cli start|ExecStart=${RUNTIPI_PATH}/runtipi-cli start|" "${ROOTFS_DIR}/etc/systemd/system/runtipi.service"
-sed -i "s|ExecStop=/home/username/runtipi/runtipi-cli stop|ExecStop=${RUNTIPI_PATH}/runtipi-cli stop|" "${ROOTFS_DIR}/etc/systemd/system/runtipi.service"
+# sed -i "s|User=username|User=${FIRST_USER_NAME}|" "${ROOTFS_DIR}/etc/systemd/system/runtipi.service"
+# Add this: `User=username` to files/runtipi.service under `[Service]` for rootless
+sed -i "s|WorkingDirectory=/home/username/runtipi/|WorkingDirectory=/home/${FIRST_USER_NAME}/runtipi|" "${ROOTFS_DIR}/etc/systemd/system/runtipi.service"
+sed -i "s|ExecStart=/home/username/runtipi/runtipi-cli start|ExecStart=/home/${FIRST_USER_NAME}/runtipi/runtipi-cli start|" "${ROOTFS_DIR}/etc/systemd/system/runtipi.service"
+sed -i "s|ExecStop=/home/username/runtipi/runtipi-cli stop|ExecStop=/home/${FIRST_USER_NAME}/runtipi/runtipi-cli stop|" "${ROOTFS_DIR}/etc/systemd/system/runtipi.service"
 
 chmod -x "${ROOTFS_DIR}/etc/systemd/system/runtipi.service"
 
