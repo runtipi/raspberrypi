@@ -1,4 +1,4 @@
-name: Release
+name: Alpha Release
 
 on:
   workflow_dispatch:
@@ -37,7 +37,7 @@ jobs:
 
       - name: Set runtipi version
         run: |
-          sed -i "s|RUNTIPI_VERSION=runtipi_version # Specify a version|RUNTIPI_VERSION=${{ github.event.inputs.version }} # Specify a version|" config
+          sed -i "s|RUNTIPI_VERSION=runtipi_version # Specify a version|RUNTIPI_VERSION=${{ github.event.inputs.version }}|" config
 
       - name: Build Image
         run: ./build-docker.sh
@@ -69,24 +69,13 @@ jobs:
         run: |
           mv ${{ steps.get_img.outputs.img_name }} ./runtipi-os-v${{ needs.create-tag.outputs.tagname }}.zip
 
-      - name: Create release
+      - name: Create alpha release
         uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          body: |
-            ## Release Notes
-
-            **Improvements**
-
-            - Update runtipi version to ${{ needs.create-tag.outputs.tagname }}
-
-            ## How to update
-
-            If you are already running runtipi os you can just ssh to the raspberry pi and update the os by running ```cd runtipi/ && ./runtipi-cli update ${{ needs.create-tag.outputs.tagname }} && ./runtipi-cli start```
-
-            Please report any bugs or issues with the os so we can fix the as soon as possible.
           tag_name: ${{ needs.create-tag.outputs.tagname }}
-          name: Runtipi OS v${{ needs.create-tag.outputs.tagname }}
+          name: v${{ needs.create-tag.outputs.tagname }}
+          prerelease: true
           files: |
             runtipi-os-v${{ needs.create-tag.outputs.tagname }}.zip
