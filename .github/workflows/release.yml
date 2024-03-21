@@ -19,6 +19,7 @@ jobs:
         run: echo ${{ github.event.inputs.distinct_id }}
 
   create-tag:
+    needs: [test]
     runs-on: ubuntu-latest
     outputs:
       tagname: ${{ steps.create_tag.outputs.tagname }}
