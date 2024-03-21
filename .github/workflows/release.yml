@@ -6,8 +6,18 @@ on:
       version:
         description: "Runtipi version (3.0.0, 3.0.0-beta.5...)"
         required: true
+      distinct_id:
+        type: string
+        description: "Distinct ID"
+        required: false
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo distinct ID ${{ github.event.inputs.distinct_id }}
+        run: echo ${{ github.event.inputs.distinct_id }}
+
   create-tag:
     runs-on: ubuntu-latest
     outputs:
