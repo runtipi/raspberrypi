@@ -27,14 +27,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Create tag
-        id: create_tag
-        run: |
-          echo "tagname=v${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
-
       - uses: rickstaa/action-create-tag@v1
         with:
-          tag: ${{ steps.create_tag.outputs.tagname }}
+          tag: ${{ github.event.inputs.version }}
 
   build-image:
     runs-on: ubuntu-latest
