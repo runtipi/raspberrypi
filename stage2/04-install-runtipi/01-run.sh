@@ -2,7 +2,7 @@
 
 # Set environment variables
 
-URL="https://github.com/runtipi/cli/releases/download/v${RUNTIPI_VERSION}/runtipi-cli-linux-aarch64.tar.gz"
+URL="https://github.com/runtipi/cli/releases/download/${RUNTIPI_VERSION}/runtipi-cli-linux-aarch64.tar.gz"
 TAR_PATH="${ROOTFS_DIR}/home/${FIRST_USER_NAME}/runtipi/runtipi-cli-linux-aarch64.tar.gz"
 RUNTIPI_PATH="${ROOTFS_DIR}/home/${FIRST_USER_NAME}/runtipi"
 
