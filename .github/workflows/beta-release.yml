@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: "Runtipi version (3.0.0, 3.0.0-beta.5...)"
+        description: "Runtipi version (v3.0.0, v3.0.0-beta.5...)"
         required: true
       distinct_id:
         type: string
@@ -20,12 +20,7 @@ jobs:
 
   create-tag:
     runs-on: ubuntu-latest
-    outputs:
-      tagname: ${{ steps.create_tag.outputs.tagname }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
       - uses: rickstaa/action-create-tag@v1
         with:
           tag: ${{ github.event.inputs.version }}
@@ -72,15 +67,15 @@ jobs:
 
       - name: Rename image
         run: |
-          mv ${{ steps.get_img.outputs.img_name }} ./runtipi-os-v${{ needs.create-tag.outputs.tagname }}.zip
+          mv ${{ steps.get_img.outputs.img_name }} ./runtipi-os-${{ github.event.inputs.version }}.zip
 
       - name: Create beta release
         uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ needs.create-tag.outputs.tagname }}
-          name: v${{ needs.create-tag.outputs.tagname }}
+          tag_name: ${{ github.event.inputs.version }}
+          name: ${{ github.event.inputs.version }}
           prerelease: true
           files: |
-            runtipi-os-v${{ needs.create-tag.outputs.tagname }}.zip
+            runtipi-os-${{ github.event.inputs.version }}.zip
