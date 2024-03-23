@@ -21,6 +21,9 @@ jobs:
   create-tag:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
       - uses: rickstaa/action-create-tag@v1
         with:
           tag: ${{ github.event.inputs.version }}
