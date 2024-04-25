@@ -13,16 +13,12 @@ on:
         required: false
 
 jobs:
-  test:
+  create-tag:
     runs-on: ubuntu-latest
     steps:
       - name: echo distinct ID ${{ github.event.inputs.distinct_id }}
         run: echo ${{ github.event.inputs.distinct_id }}
 
-  create-tag:
-    runs-on: ubuntu-latest
-    needs: [test]
-    steps:
       - name: Checkout code
         uses: actions/checkout@v4
 

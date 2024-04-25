@@ -4,23 +4,21 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: "Runtipi version (v3.0.0, v3.0.0-beta.5...)"
         required: true
+        type: string
+        description: "Runtipi version (v3.0.0, v3.0.0-beta.5...)"
       distinct_id:
         type: string
         description: "Distinct ID"
         required: false
 
 jobs:
-  test:
+  create-tag:
     runs-on: ubuntu-latest
     steps:
       - name: echo distinct ID ${{ github.event.inputs.distinct_id }}
         run: echo ${{ github.event.inputs.distinct_id }}
 
-  create-tag:
-    runs-on: ubuntu-latest
-    steps:
       - name: Checkout code
         uses: actions/checkout@v4
         
