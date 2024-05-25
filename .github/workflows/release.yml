@@ -24,7 +24,7 @@ jobs:
 
       - uses: rickstaa/action-create-tag@v1
         with:
-          tag: ${{ github.event.inputs.version }}
+          tag: ${ github.event.inputs.version }}
 
   build-image:
     runs-on: ubuntu-latest
@@ -80,11 +80,11 @@ jobs:
 
             **Improvements**
 
-            - Update runtipi version to ${{ needs.create-tag.outputs.tagname }}
+            - Update runtipi version to ${{ github.event.inputs.version }}
 
             ## How to update
 
-            If you are already running runtipi os you can just ssh to the raspberry pi and update the os by running ```cd runtipi/ && ./runtipi-cli update ${{ needs.create-tag.outputs.tagname }} && ./runtipi-cli start```
+            If you are already running runtipi os you can just ssh to the raspberry pi and update the os by running ```cd runtipi/ && ./runtipi-cli update ${{ github.event.inputs.version }} && ./runtipi-cli start```
 
             Please report any bugs or issues with the os so we can fix the as soon as possible.
           tag_name: ${{ github.event.inputs.version }}
