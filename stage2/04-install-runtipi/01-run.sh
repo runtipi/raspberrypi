@@ -39,6 +39,14 @@ on_chroot << EOF
 chown -R ${FIRST_USER_NAME} "/home/${FIRST_USER_NAME}/runtipi/"
 EOF
 
+# Set runtipi hostname
+
+echo "Setting runtipi hostname..."
+
+mkdir -p "${RUNTIPI_PATH}/state"
+
+echo '{"localDomain":"runtipi.local"}' > "${RUNTIPI_PATH}/state/settings.json"
+
 # Enable runtipi on boot 
 
 echo "Install service..."
