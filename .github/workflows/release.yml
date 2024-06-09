@@ -41,7 +41,7 @@ jobs:
 
       - name: Set runtipi version
         run: |
-          sed -i "s|RUNTIPI_VERSION=runtipi_version # Specify a version|RUNTIPI_VERSION=${{ github.event.inputs.version }} # Specify a version|" config
+          sed -i "s|RUNTIPI_VERSION=runtipi_version # Specify a version|RUNTIPI_VERSION=${{ github.event.inputs.version }}|" config
 
       - name: Build Image
         run: ./build-docker.sh
