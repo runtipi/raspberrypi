@@ -9,7 +9,7 @@ into the self-hosting world as easy as possible and of course as affordable as p
 
 ## Getting started 🚀
 
-You can install RunTipi on either of these two devices:
+You can install Runtipi on these three devices:
 
 - [Raspberry Pi 4 Model B](https://www.raspberrypi.com/products/raspberry-pi-4-model-b/)
 - [Raspberry Pi 3 Model B+](https://www.raspberrypi.com/products/raspberry-pi-3-model-b-plus/)
@@ -20,7 +20,7 @@ You can install RunTipi on either of these two devices:
 ### Instructions
 
 1. You will need these requirements to install Runtipi OS:
-   1. A raspberry pi 3,4 or 5 (of course 😉)
+   1. A raspberry pi 3, 4 or 5 (of course 😉)
    2. A 16gb or more SD card
    3. An ethernet cable
    4. A computer with an internet connection
@@ -71,9 +71,7 @@ qemu-utils kpartx gpg pigz sed
 
 ### 4. Set the current runtipi version in `config`
 
-Replace the `runtipi_version` with a version from the stable runtipi repo, like 3.0.0
-
-> ⚠️ Warning! Do not add the v prefix in the version, e.g. v3.0.0 will not work, only put the version e.g 3.0.0!
+Replace the `runtipi_version` with a version from the stable runtipi repo, like v3.0.0
 
 ### 5. Build
 
