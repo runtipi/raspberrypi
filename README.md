@@ -1,3 +1,6 @@
+> [!WARNING]
+> This repository is now archived and the images are unmaintained, this is because the repository did not receive the expected traffic and it was wasting a lot of action minutes. If you are interested in installing Runtipi on a raspberry pi please firstly install the 64bit OS and then use the official install script.
+
 # Runtipi OS ⛺
 
 Runtipi OS is a simple operating system based on Debian Bookworm designed to make the experience of getting
